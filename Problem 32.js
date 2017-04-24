@@ -1,26 +1,31 @@
-function permutations(str, arr) {
-	if (str.length == 0) return arr
+var digits = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
-	var newarr = []
-	if (arr.length == 0) newarr.push(str.charAt(0))
-	else {
-		for (var x = 0; x < arr.length; x++) {
-			var temp = arr[x]
-			for (var y = 0; y <= temp.length; y++) {
-				newarr.push(temp.slice(0, y) + str.charAt(0) + temp.slice(y))
-			}
+function isPermutation(str) {
+	for (var x = 0; x < 9; x++) {
+		if (str.indexOf(digits[x]) < 0) {
+			return false;
 		}
 	}
 
-	return permutations(str.slice(1), newarr)
+	return true;
 }
 
 var sum = 0
-var checks = permutations("0123456789", [])
-for (var x = 0; x < checks; x++) {
-	
+var solutions = [];
+
+for (var x = 1; x < 10000; x++) {
+	for (var y = 1; y < 10000; y++) {
+		var prod = x * y;
+		var temp = "" + x.toString() + y.toString() + prod.toString();
+
+		if (temp.length === 9 && isPermutation(temp)) {
+			console.log(x + " * " + y + " = " + prod);
+			if (solutions.indexOf(prod) == -1) {
+				solutions.push(prod);
+				sum += prod;
+			}
+		}
+	}
 }
-
-
 
 console.log(sum)
